@@ -4,16 +4,26 @@ import scipy
 
 rng = np.random.default_rng()
 
-#get this params to work later
-#params = json.load("setup.json")
+def check_middle_nodes(index, edge):
+    if edge == True:
 
-params = {"height": 4, "width" : 4}
+    else:
+        
+
+
+#fix filepath later
+with open("/home/jax/montecarloengine/Monte_Carlo_Engine/setup.json") as jf:
+    params = json.load(jf)
+#params is structured as : {ferromagnetic: 0/1, width : int, height : int, variable_J : 0/1, h : 0/1}
+# ferromagnetic is assumed to be 1 if true, 0 if anti ferromagnetic
+# width / height determine the size of your lattice grid, m x n matrix corresponds to h x w
+# if variable_J is 0, all interactions are assumed to be equal strength with J = 
+# if h is 0, its assumed you have no external magnetic field, which simplifies hamiltonian calculations
 
 graph = np.zeros((params["height"],params["width"]))
 
-# Right now this is operating under the assumption that spin up and spin down are equally as likely
+# operates under the assumption that spin up and spin down are equally as likely
 spins = np.array(rng.standard_normal(params["height"] * params["width"]))
-
 spins[np.where(spins > 0.5)] = 1
 spins[np.where(spins <= 0.5)] = -1
 
