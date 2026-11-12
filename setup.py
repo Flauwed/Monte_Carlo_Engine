@@ -4,10 +4,23 @@ import scipy
 
 rng = np.random.default_rng()
 
-def check_middle_nodes(index, edge):
+def check_nodes(current_index, edge):
     if edge == True:
-
+        pass
     else:
+        neighbors = [[current_index[0],current_index[1]-1],
+                     [current_index[0],current_index[1]+1],
+                     [current_index[0]+1,current_index[1]],
+                     [current_index[0]-1,current_index[1]],
+                     ]
+        spin_sum = 0
+        for element in neighbors:
+            if element[0] in positive and element[1] in positive:
+                spin_sum += 1
+            else:
+                spin_sum -= 1
+        net_spin = graph[current_index] * spin_sum
+    return net_spin
         
 
 
@@ -32,3 +45,8 @@ for i in range(0,params["height"]):
         graph[i,j] = spins[i + j]
 
 print(graph)
+
+positive = np.where(graph > 0)
+negative = np.where(graph < 0)
+
+print(check_nodes((1,1),False))
