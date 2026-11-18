@@ -10,9 +10,13 @@ with open(pathlib.Path(__file__).parent / "Setup.json") as jf:
 # width / height determine the size of your lattice grid, m x n matrix corresponds to h x w
 # seed is used to set the rng generator
 
-rng = np.random.default_rng(params["seed"])
-#remove the params["seed"] if you want automatic random seeds without editing the Setup.json file
- 
+def create_lattice(seed=None,height=3,width=3):
+    rng = np.random.default_rng(seed)
+    lattice = rng.choice([-1, 1], size=(height, width))
+    return lattice
+# lattice will now default to a random 3x3 if no seed, width, or height is automatically passed
+
+
 def neighbor_sum(lattice, i, j):
     h, w = lattice.shape
     neighbor_sum = (lattice[(i-1) % h, j] + lattice[(i+1) % h, j] 
@@ -30,7 +34,9 @@ def total_energy(lattice):
 def magnetism(lattice):
     return
 
-lattice = rng.choice([-1, 1], size=(params["height"], params["width"]))
+lattice = create_lattice(params["seed"],params["height"],params["width"])
+#lattice = create_lattice()
+# if nothing is passed, defaults to random 3x3, otherwise follow the above syntax to pull from the json file
 
 positive = np.where(lattice > 0)
 negative = np.where(lattice < 0)
